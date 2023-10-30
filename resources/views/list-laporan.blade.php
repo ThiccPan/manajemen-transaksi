@@ -13,11 +13,12 @@
                     <th>Sales</th>
                     <th>Lokasi mitra</th>
                     <th>Dokumen</th>
+                    <th>Ubah</th>
                 </x-slot>
                 @foreach ($daftar_laporan as $laporan)
                     <tr>
                         <td>{{ $laporan->id }}</td>
-                        <td>{{ $laporan->user_id }}</td>
+                        <td>{{ $laporan->user->name }}</td>
                         <td>
                             <a href="{{ $laporan->url_koordinat }}" target="_blank"
                                 class="text-blue-600 visited:text-purple-600">
@@ -29,6 +30,15 @@
                                 class="text-blue-600 visited:text-purple-600">
                                 Link
                             </a>
+                        </td>
+                        <td>
+                            <div class="flex flex-row">
+                                <form action="{{ route('laporan.detail', ['id' => $laporan->id]) }}" method="get">
+                                    <x-bladewind.button size="tiny" can_submit="true" color="blue">
+                                        ubah
+                                    </x-bladewind.button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
