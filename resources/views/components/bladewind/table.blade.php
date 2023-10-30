@@ -85,7 +85,7 @@
         }
     }
 @endphp
-<div class="z-20"> {{--max-w-screen overflow-x-hidden md:w-full--}}
+<div class="z-20 overflow-x-auto"> {{--max-w-screen overflow-x-hidden md:w-full--}}
     <div class="w-full">
         @if($searchable)
             <div class="bw-table-filter-bar bg-slate-100 p-2">
