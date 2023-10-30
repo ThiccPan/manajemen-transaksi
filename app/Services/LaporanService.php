@@ -8,12 +8,27 @@ use Illuminate\Support\Facades\DB;
 
 class LaporanService
 {
-    public function getAllLaporan(int $userId, $limit = 5)
+    public function getAllLaporanUser(int $userId, $limit = 5)
     {
-        $data = DB::table('laporan')
-            ->where('user_id', '=', $userId)
-            ->limit($limit)
-            ->get();
+        $query = Laporan::with('user')->where('user_id', '=', $userId);
+        $data = $query->limit($limit)->get();
+
+        return $data;
+    }
+
+    public function getAllLaporan($limit = 5)
+    {
+        $query = Laporan::with('user');
+        $data = $query->limit($limit)->get();
+
+        return $data;
+    }
+
+    public function getLaporanById(string $laporanId)
+    {
+        $data = Laporan::with('user')
+            ->where('id', '=', $laporanId)
+            ->first();
 
         return $data;
     }
@@ -29,7 +44,7 @@ class LaporanService
         $fileExt = $fileBuktiPembayaran->extension();
 
         $fileBuktiPembayaranPath = $fileBuktiPembayaran
-            ->storeAs('images', "{$laporanBaru->id}.{$fileExt}");
+            ->storeAs('public/images', "{$laporanBaru->id}.{$fileExt}");
 
         $laporanBaru->url_koordinat = $inputCoordinate;
         $laporanBaru->dokumen = $fileBuktiPembayaranPath;
