@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class LaporanService
 {
-    public function getAllLaporan($limit = 5)
+    public function getAllLaporan(int $userId, $limit = 5)
     {
         $data = DB::table('laporan')
+            ->where('user_id', '=', $userId)
             ->limit($limit)
             ->get();
 
@@ -21,6 +22,7 @@ class LaporanService
     {
         $laporanBaru = new Laporan();
         $laporanBaru->id = $laporanBaru->newUniqueId();
+        $laporanBaru->user_id = $userId;
 
         $inputCoordinate = $request->coordinate;
         $fileBuktiPembayaran = $request->file("buktiPembayaran");
