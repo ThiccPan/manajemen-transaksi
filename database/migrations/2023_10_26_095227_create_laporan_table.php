@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('laporan', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('dokumen');
             $table->string('url_koordinat');
             $table->timestamps();
