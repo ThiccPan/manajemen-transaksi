@@ -6,29 +6,33 @@
     </x-slot>
 
     <div class="mx-8 py-12">
-        <x-bladewind.table>
-            <x-slot name="header">
-                <th>ID</th>
-                <th>Lokasi mitra</th>
-                <th>Dokumen</th>
-            </x-slot>
-            @foreach ($daftar_laporan as $laporan)
-                <tr>
-                    <td>{{ $laporan->id }}</td>
-                    <td>
-                        <a href="{{ $laporan->url_koordinat }}" target="_blank"
-                            class="text-blue-600 visited:text-purple-600">
-                            Link
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ asset('storage/' . $laporan->dokumen) }}" target="_blank"
-                            class="text-blue-600 visited:text-purple-600">
-                            Link
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
-        </x-bladewind.table>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-bladewind.table>
+                <x-slot name="header">
+                    <th>ID</th>
+                    <th>Sales</th>
+                    <th>Lokasi mitra</th>
+                    <th>Dokumen</th>
+                </x-slot>
+                @foreach ($daftar_laporan as $laporan)
+                    <tr>
+                        <td>{{ $laporan->id }}</td>
+                        <td>{{ $laporan->user_id }}</td>
+                        <td>
+                            <a href="{{ $laporan->url_koordinat }}" target="_blank"
+                                class="text-blue-600 visited:text-purple-600">
+                                Link
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ asset('storage/' . $laporan->dokumen) }}" target="_blank"
+                                class="text-blue-600 visited:text-purple-600">
+                                Link
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </x-bladewind.table>
+        </div>
     </div>
 </x-app-layout>
