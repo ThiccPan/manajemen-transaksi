@@ -15,9 +15,8 @@ class LaporanController extends Controller
         return view('tambah-laporan');
     }
 
-    public function tambahLaporan(Request $request)
+    public function tambahLaporan(Request $request, Authenticatable $user)
     {
-        $user = Auth::getUser();
         $laporanBaru = (new LaporanService())->addLaporan($request, $user->id);
         ddd($laporanBaru);
     }
