@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use App\Services\LaporanService;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +22,9 @@ class LaporanController extends Controller
         ddd($laporanBaru);
     }
 
-    public function listLaporan()
+    public function listLaporan(Authenticatable $user)
     {
-        $laporanData = (new LaporanService())->getAllLaporan(5);
+        $laporanData = (new LaporanService())->getAllLaporan($user->id, 5);
         // ddd($laporanData);
         return view('list-laporan', [
             "daftar_laporan" => $laporanData,
