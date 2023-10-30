@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
 
 class Laporan extends Model
@@ -49,4 +50,9 @@ class Laporan extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
