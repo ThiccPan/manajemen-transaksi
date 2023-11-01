@@ -35,9 +35,9 @@ class LaporanController extends Controller
         $laporanData = [];
         // TODO: refactor authorization handling
         if ($user->divisi_id == 2) {
-            $laporanData = ($this->laporanService)->getAllLaporan(5);
+            $laporanData = $this->laporanService->getAllLaporan(5);
         } else {
-            $laporanData = ($this->laporanService)->getAllLaporanUser($user->id, 5);
+            $laporanData = $this->laporanService->getAllLaporanUser($user->id, 5);
         }
         return view('list-laporan', [
             "daftar_laporan" => $laporanData,
