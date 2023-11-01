@@ -43,11 +43,10 @@ class LaporanService
         $fileBuktiPembayaran = $request->file("buktiPembayaran");
         $fileExt = $fileBuktiPembayaran->extension();
 
-        $fileBuktiPembayaranPath = $fileBuktiPembayaran
-            ->storeAs('public/images', "{$laporanBaru->id}.{$fileExt}");
+        $fileBuktiPembayaran->storeAs('public', "images/{$laporanBaru->id}.{$fileExt}");
 
         $laporanBaru->url_koordinat = $inputCoordinate;
-        $laporanBaru->dokumen = $fileBuktiPembayaranPath;
+        $laporanBaru->dokumen = "images/{$laporanBaru->id}.{$fileExt}";
 
         $laporanBaru->save();
         return $laporanBaru;
