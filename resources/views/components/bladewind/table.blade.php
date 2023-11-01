@@ -85,8 +85,8 @@
         }
     }
 @endphp
-<div class="z-20 overflow-x-auto"> {{--max-w-screen overflow-x-hidden md:w-full--}}
-    <div class="w-full">
+<div class="z-20"> {{--max-w-screen overflow-x-hidden md:w-full--}}
+    <div class="w-full overflow-x-auto table-auto">
         @if($searchable)
             <div class="bw-table-filter-bar bg-slate-100 p-2">
                 <x-bladewind::input name="bw-search-{{$name}}" placeholder="{{$search_placeholder}}"
