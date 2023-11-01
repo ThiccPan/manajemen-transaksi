@@ -30,11 +30,12 @@ class LaporanController extends Controller
         return redirect(route('laporan.daftar'));
     }
 
-    public function listLaporan(Authenticatable $user)
+    public function listLaporan(Request $request)
     {
+        $user = $request->user();
         $laporanData = [];
         // TODO: refactor authorization handling
-        if ($user->divisi_id == 2) {
+        if ($user->isAdmin()) {
             $laporanData = $this->laporanService->getAllLaporan(5);
         } else {
             $laporanData = $this->laporanService->getAllLaporanUser($user->id, 5);
