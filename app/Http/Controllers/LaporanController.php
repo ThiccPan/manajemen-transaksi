@@ -10,6 +10,12 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class LaporanController extends Controller
 {
+    private LaporanService $laporanService;
+    public function __construct(LaporanService $laporanService)
+    {
+        $this->laporanService = $laporanService;
+    }
+
     public function AddTransaksiPage(Request $request)
     {
         return view('tambah-laporan');
@@ -17,7 +23,10 @@ class LaporanController extends Controller
 
     public function tambahLaporan(Request $request, Authenticatable $user)
     {
-        $laporanBaru = (new LaporanService())->addLaporan($request, $user->id);        
+        $laporanBaru =
+            $this->laporanService
+            ->addLaporan($request, $user->id);
+
         return redirect(route('laporan.daftar'));
     }
 
@@ -26,9 +35,9 @@ class LaporanController extends Controller
         $laporanData = [];
         // TODO: refactor authorization handling
         if ($user->divisi_id == 2) {
-            $laporanData = (new LaporanService())->getAllLaporan(5);
+            $laporanData = ($this->laporanService)->getAllLaporan(5);
         } else {
-            $laporanData = (new LaporanService())->getAllLaporanUser($user->id, 5);
+            $laporanData = ($this->laporanService)->getAllLaporanUser($user->id, 5);
         }
         return view('list-laporan', [
             "daftar_laporan" => $laporanData,
@@ -40,7 +49,8 @@ class LaporanController extends Controller
         string $laporanId,
     ) {
         $user = $request->user();
-        $dataLaporan = (new LaporanService())
+        $dataLaporan = $this
+            ->laporanService
             ->getLaporanById($laporanId);
 
         // TODO: refactor authorization handling
