@@ -12,14 +12,12 @@ class LaporanController extends Controller
 {
     public function AddTransaksiPage(Request $request)
     {
-        ddd($request->user()->isAdmin());
         return view('tambah-laporan');
     }
 
     public function tambahLaporan(Request $request, Authenticatable $user)
     {
-        $laporanBaru = (new LaporanService())->addLaporan($request, $user->id);
-        // ddd($laporanBaru);
+        $laporanBaru = (new LaporanService())->addLaporan($request, $user->id);        
         return redirect(route('laporan.daftar'));
     }
 
