@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Laporan::class);
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->divisi_id == 2;
+    }
 }
