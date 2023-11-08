@@ -13,6 +13,7 @@
                     <th>Sales</th>
                     <th>Lokasi mitra</th>
                     <th>Dokumen</th>
+                    <th>Tanggal dibuat</th>
                     <th>Ubah</th>
                 </x-slot>
                 @foreach ($daftar_laporan as $laporan)
@@ -30,6 +31,9 @@
                                 class="text-blue-600 visited:text-purple-600">
                                 Link
                             </a>
+                        </td>
+                        <td>
+                            {{ $laporan->created_at }}
                         </td>
                         <td>
                             <div class="flex flex-row">
