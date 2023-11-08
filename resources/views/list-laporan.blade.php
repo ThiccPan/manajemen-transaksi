@@ -7,6 +7,10 @@
 
     <div class="mx-8 py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <x-bladewind::button icon="plus" button_text_css="font-bold" radius="small" tag="a"
+                    href="{{ route('laporan.tambah') }}">Tambah Laporan</x-bladewind::button>
+            </div>
             <x-bladewind.table>
                 <x-slot name="header">
                     <th>ID</th>
@@ -38,7 +42,7 @@
                         <td>
                             <div class="flex flex-row">
                                 <form action="{{ route('laporan.detail', ['id' => $laporan->id]) }}" method="get">
-                                    <x-bladewind.button size="tiny" can_submit="true" color="blue">
+                                    <x-bladewind.button size="tiny" radius="small" can_submit="true" color="blue">
                                         ubah
                                     </x-bladewind.button>
                                 </form>
