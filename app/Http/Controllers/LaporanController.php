@@ -57,7 +57,7 @@ class LaporanController extends Controller
         // TODO: refactor authorization handling
         if (
             $user->id != $dataLaporan->user_id
-            && $user->isAdmin()
+            && !$user->isAdmin()
         ) {
             return redirect(route('laporan.daftar'));
         }
