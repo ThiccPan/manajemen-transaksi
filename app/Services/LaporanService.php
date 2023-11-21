@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Laporan;
+use App\Models\LaporanStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class LaporanService
 {
@@ -41,12 +41,15 @@ class LaporanService
 
         $inputCoordinate = $request->coordinate;
         $fileBuktiPembayaran = $request->file("buktiPembayaran");
-        $fileExt = $fileBuktiPembayaran->extension();
+        // TODO: handle multiple mage
+        $fileExt = $fileBuktiPembayaran[0]->extension();
 
-        $fileBuktiPembayaran->storeAs('public', "images/{$laporanBaru->id}.{$fileExt}");
+        $fileBuktiPembayaran[0]->storeAs('public', "images/{$laporanBaru->id}.{$fileExt}");
 
         $laporanBaru->url_koordinat = $inputCoordinate;
         $laporanBaru->dokumen = "images/{$laporanBaru->id}.{$fileExt}";
+
+        $laporanBaru->status = LaporanStatus::CHECK_IN->value;
 
         $laporanBaru->save();
         return $laporanBaru;
