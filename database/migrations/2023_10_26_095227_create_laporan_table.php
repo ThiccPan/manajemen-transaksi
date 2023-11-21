@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('dokumen');
             $table->string('url_koordinat');
+            $table->enum('status', ['CHECK_IN', 'CHECK_OUT']);
             $table->timestamps();
         });
     }
