@@ -66,4 +66,22 @@ class LaporanController extends Controller
             'laporan' => $dataLaporan,
         ]);
     }
+
+    public function updateLaporan(
+        Request $request,
+        string $laporanId,
+    ) {
+        $validatedRequest = $this->validateRequest($request);
+        $updateLaporanDTO = array_merge($validatedRequest->all(), ["laporanId" => $laporanId]);
+
+        $this->laporanService
+            ->updateLaporan($updateLaporanDTO);
+
+        return redirect(route('laporan.detail', $laporanId));
+    }
+
+    function validateRequest(Request $request)
+    {
+        return $request;
+    }
 }

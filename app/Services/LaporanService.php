@@ -54,4 +54,12 @@ class LaporanService
         $laporanBaru->save();
         return $laporanBaru;
     }
+
+    public function updateLaporan($updateLaporanDTO)    
+    {
+        $data = Laporan::where('id', '=', $updateLaporanDTO["laporanId"])
+            ->first();
+        $data->status = LaporanStatus::CHECK_OUT->value;
+        $data->save();
+    }
 }
