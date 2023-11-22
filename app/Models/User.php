@@ -9,6 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+enum Divisi: int
+{
+    case Sales = 1;
+    case Admin = 2;
+}
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -51,6 +57,6 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->divisi_id == 2;
+        return $this->divisi_id == Divisi::Admin->value;
     }
 }
