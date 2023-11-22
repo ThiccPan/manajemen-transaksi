@@ -14,7 +14,11 @@
 
             <p id="status"></p>
 
-            <input type="file" id="filepond-input" name="buktiPembayaran" required="true" multiple />
+            <label for="buktiCheckIn">Bukti Check In</label>
+            <input type="file" id="buktiCheckIn" name="buktiCheckIn" required="true" />
+
+            <label for="buktiPembayaran">Bukti Pembayaran</label>
+            <input type="file" id="buktiPembayaran" name="buktiPembayaran[]" required="true" multiple />
 
             <button type="submit" name="btn-save"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default</button>
@@ -27,16 +31,25 @@
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
         // Get a reference to the file input element
-        const inputElement = document.querySelector('#filepond-input');
+        const inputBuktiPembayaran = document.querySelector('#buktiPembayaran');
+        const inputBuktiCheckIn = document.querySelector('#buktiCheckIn');
         FilePond.registerPlugin(FilePondPluginImagePreview);
 
         // Create a FilePond instance
-        const pond = FilePond.create(inputElement, {
+        const pondBuktiPembayaran = FilePond.create(inputBuktiPembayaran, {
             storeAsFile: true,
             onaddfile: (err, fileItem) => {
                 console.log(err, fileItem.getMetadata('resize'));
             },
-
         });
+
+        const pondBuktiCheckIn = FilePond.create(inputBuktiCheckIn, {
+            storeAsFile: true,
+            onaddfile: (err, fileItem) => {
+                console.log(err, fileItem.getMetadata('resize'));
+            },
+        });
+
+        const checkInPond = FilePond.create();
     </script>
 </x-app-layout>
