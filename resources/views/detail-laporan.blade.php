@@ -7,15 +7,19 @@
 
     <div class="mx-8 py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-bladewind.card title="Detail laporan">
-                Dokumen laporan transaksi
+            <x-bladewind.card title="Detail laporan" class="mb-4">
+                <p>Tipe Dokumen:</p>
+                <p>Dokumen laporan transaksi:</p>
+                <p>Sales: {{ $laporan->user->name }}</p>
+
                 <x-bladewind.list-item>
                     <img src="{{ asset('storage/' . $laporan->dokumen) }}" alt="dokumen" srcset="">
                 </x-bladewind.list-item>
+                Tanggal laporan: {{ $laporan->created_at }}
             </x-bladewind.card>
 
             <x-bladewind.card>
-                Lokasi laporan:
+                Lokasi laporan dibuat:
                 <a href="{{ $laporan->url_koordinat }}" target="_blank" class="text-blue-600 visited:text-purple-600">
                     {{ $laporan->url_koordinat }}
                 </a>
