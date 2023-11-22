@@ -7,23 +7,25 @@
 
     <div class="mx-8 py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-bladewind.card title="Detail laporan" class="mb-4">
+            <div
+                class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
+
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Detail laporan</h5>
                 <p>Tipe Dokumen:</p>
                 <p>Dokumen laporan transaksi:</p>
                 <p>Sales: {{ $laporan->user->name }}</p>
 
-                <x-bladewind.list-item>
-                    <img src="{{ asset('storage/' . $laporan->dokumen) }}" alt="dokumen" srcset="">
-                </x-bladewind.list-item>
+                <img src="{{ asset('storage/' . $laporan->dokumen) }}" alt="dokumen" srcset="">
                 Tanggal laporan: {{ $laporan->created_at }}
-            </x-bladewind.card>
+            </div>
 
-            <x-bladewind.card>
+            <div
+                class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
                 Lokasi laporan dibuat:
                 <a href="{{ $laporan->url_koordinat }}" target="_blank" class="text-blue-600 visited:text-purple-600">
                     {{ $laporan->url_koordinat }}
                 </a>
-            </x-bladewind.card>
+            </div>
         </div>
     </div>
 </x-app-layout>
