@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
 
+enum LaporanStatus: string
+{
+    case CHECK_IN = "CHECK_IN";
+    case CHECK_OUT = "CHECK_out";
+}
+
 class Laporan extends Model
 {
     use HasFactory;
