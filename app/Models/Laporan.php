@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 enum LaporanStatus: string
 {
     case CHECK_IN = "CHECK_IN";
-    case CHECK_OUT = "CHECK_out";
+    case CHECK_OUT = "CHECK_OUT";
 }
 
 class Laporan extends Model
