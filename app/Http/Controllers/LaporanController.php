@@ -6,6 +6,7 @@ use App\Services\LaporanService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class LaporanController extends Controller
@@ -72,12 +73,21 @@ class LaporanController extends Controller
         string $laporanId,
     ) {
         $validatedRequest = $this->validateRequest($request);
-        $updateLaporanDTO = array_merge($validatedRequest->all(), ["laporanId" => $laporanId]);
+        $updateLaporanDTO = array_merge($validatedRequest->all(), [
+            "laporanId" => $laporanId,
+            "user" => $validatedRequest->user(),
+        ]);
 
-        $this->laporanService
-            ->updateLaporan($updateLaporanDTO);
+        try {
+            $this->laporanService
+                ->updateLaporan($updateLaporanDTO);
+        } catch (\Throwable $th) {
+            Log::error("failure to update laporan data", ["error" => $th]);
+            return redirect(route('laporan.detail', $laporanId))
+                ->with("error", "gagal melakukan update laporan");
+        }
 
-        return redirect(route('laporan.detail', $laporanId));
+        return redirect(route('laporan.detail', $laporanId))->with("success", "laporan berhasil di-update");
     }
 
     function validateRequest(Request $request)

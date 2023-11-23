@@ -55,7 +55,7 @@ class LaporanService
         return $laporanBaru;
     }
 
-    public function updateLaporan($updateLaporanDTO)    
+    public function updateLaporan($updateLaporanDTO)
     {
         $data = Laporan::where('id', '=', $updateLaporanDTO["laporanId"])
             ->first();
