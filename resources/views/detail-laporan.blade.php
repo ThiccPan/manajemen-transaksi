@@ -6,6 +6,14 @@
     </x-slot>
 
     <div class="mx-8 py-12">
+        @if ($successMsg = Session::get('success'))
+            <x-alert alert-type="success" message="{{ $successMsg }}" />
+        @endif
+
+        @if ($errorMsg = Session::get('error'))
+            <x-alert alert-type="error" message="{{ $errorMsg }}" />
+        @endif
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
 
@@ -19,7 +27,8 @@
                 Tanggal laporan: {{ $laporan->created_at }}
             </div>
 
-            <div class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
+            <div
+                class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
                 Lokasi laporan dibuat:
                 <a href="{{ $laporan->url_koordinat }}" target="_blank" class="text-blue-600 visited:text-purple-600">
                     {{ $laporan->url_koordinat }}
