@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->unsignedBigInteger('divisi_id')->default(1);
+            $table->foreign('divisi_id')->references('id')->on('divisi');
             $table->timestamps();
         });
     }
