@@ -4,7 +4,10 @@ namespace App\Services;
 
 use App\Models\Laporan;
 use App\Models\LaporanStatus;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LaporanService
 {
@@ -57,9 +60,12 @@ class LaporanService
 
     public function updateLaporan($updateLaporanDTO)
     {
+        $checkOutTime = Carbon::now()->toDateTimeString();
         $data = Laporan::where('id', '=', $updateLaporanDTO["laporanId"])
             ->first();
+        $data->check_out_at = $checkOutTime;
         $data->status = LaporanStatus::CHECK_OUT->value;
         $data->save();
+        Log::info("laporan " . $data->id . " is updated");
     }
 }
