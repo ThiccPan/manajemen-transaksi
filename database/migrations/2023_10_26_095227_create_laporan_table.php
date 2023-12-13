@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('url_koordinat');
             $table->enum('status', ['CHECK_IN', 'CHECK_OUT']);
             $table->timestamps();
+            $table->timestamp('check_out_at')->nullable();
         });
     }
 
