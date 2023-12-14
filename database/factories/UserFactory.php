@@ -18,7 +18,6 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        (new DivisiSeeder)->run();
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
