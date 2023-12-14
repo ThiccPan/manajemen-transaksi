@@ -18,10 +18,9 @@
             <div class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
 
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Detail laporan</h5>
-                <p>Tipe Dokumen:</p>
                 <p>Dokumen laporan transaksi:</p>
+                <p>Tipe Laporan: {{ $laporan->type }}</p>
                 <p>Sales: {{ $laporan->user->name }}</p>
-                <p>Status: {{ $laporan->status }}</p>
 
                 <img src="{{ asset('storage/' . $laporan->dokumen) }}" alt="dokumen" srcset="">
                 Tanggal laporan: {{ $laporan->created_at }}
@@ -38,6 +37,7 @@
             <div
                 class="block p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 my-4">
                 <p>Status: {{ $laporan->status }}</p>
+                <p>Waktu check out: {{ $laporan->check_out_at }}</p>
                 <form action="{{ route('laporan.update', $laporan->id) }}" method="post">
                     @csrf
                     @method('PUT')
