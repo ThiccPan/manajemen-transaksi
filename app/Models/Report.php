@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
 
-enum LaporanStatus: string
+enum ReportStatus: string
 {
     case CHECK_IN = "CHECK_IN";
     case CHECK_OUT = "CHECK_OUT";
 }
 
-class Laporan extends Model
+class Report extends Model
 {
     use HasFactory;
     use HasUuids;
 
-    protected $table = "laporan";
+    protected $table = "reports";
 
     /**
      * The attributes that are mass assignable.

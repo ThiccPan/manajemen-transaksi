@@ -8,7 +8,7 @@
     <div class="mx-8 py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-12">
-                <a href="{{ route('laporan.tambah') }}" type="button"
+                <a href="{{ route('report.add') }}" type="button"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Tambah Laporan
                     <svg class="w-3 h-3 ms-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($daftar_laporan as $laporan)
+                        @foreach ($list_report as $report)
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td class="w-4 p-4">
@@ -68,28 +68,28 @@
                                     {{ $loop->index }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $laporan->id }}
+                                    {{ $report->id }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $laporan->user->name }}
+                                    {{ $report->user->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ $laporan->url_koordinat }}" target="_blank"
+                                    <a href="{{ $report->coordinate_url }}" target="_blank"
                                         class="text-blue-600 visited:text-purple-600">
                                         Link
                                     </a>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ asset('storage/' . $laporan->dokumen) }}" target="_blank"
+                                    <a href="{{ asset('storage/' . $report->document) }}" target="_blank"
                                         class="text-blue-600 visited:text-purple-600">
                                         Link
                                     </a>
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $laporan->created_at }}
+                                    {{ $report->created_at }}
                                 </td>
                                 <td class="flex items-center px-6 py-4">
-                                    <a href="{{ route('laporan.detail', ['id' => $laporan->id]) }}"
+                                    <a href="{{ route('report.detail', ['id' => $report->id]) }}"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                                     <a href="#"
                                         class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Remove</a>

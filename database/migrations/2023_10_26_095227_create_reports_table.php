@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('laporan', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('dokumen');
-            $table->string('url_koordinat');
+            $table->string('document');
+            $table->string('coordinate_url');
             $table->enum('status', ['CHECK_IN', 'CHECK_OUT']);
             $table->enum('type', ['VISIT', 'NOO', 'ORDER']);
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('laporan');
+        Schema::dropIfExists('reports');
     }
 };

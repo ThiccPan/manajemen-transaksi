@@ -50,9 +50,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function laporan(): HasMany
+    public function report(): HasMany
     {
-        return $this->hasMany(Laporan::class);
+        return $this->hasMany(Report::class);
     }
 
     public function isAdmin(): bool
