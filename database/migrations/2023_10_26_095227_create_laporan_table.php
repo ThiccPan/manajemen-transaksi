@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('dokumen');
             $table->string('url_koordinat');
             $table->enum('status', ['CHECK_IN', 'CHECK_OUT']);
+            $table->enum('type', ['VISIT', 'NOO', 'ORDER']);
             $table->timestamps();
             $table->timestamp('check_out_at')->nullable();
         });
