@@ -20,7 +20,6 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
-        (new DivisiSeeder)->run();
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
