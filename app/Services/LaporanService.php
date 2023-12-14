@@ -41,6 +41,7 @@ class LaporanService
         $laporanBaru = new Laporan();
         $laporanBaru->id = $laporanBaru->newUniqueId();
         $laporanBaru->user_id = $userId;
+        $laporanBaru->type = $request->type;
 
         $inputCoordinate = $request->coordinate;
         $fileBuktiPembayaran = $request->file("buktiPembayaran");
