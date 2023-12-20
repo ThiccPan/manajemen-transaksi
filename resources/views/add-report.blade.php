@@ -18,9 +18,6 @@
             <label for="buktiCheckIn">Bukti Check In</label>
             <input type="file" id="buktiCheckIn" name="buktiCheckIn" required="true" />
 
-            <label for="buktiPembayaran">Bukti Pembayaran</label>
-            <input type="file" id="buktiPembayaran" name="buktiPembayaran[]" required="true" multiple />
-
             <p class="mb-4">
                 Lokasi anda saat ini:
                 <a id="map-link" target="_blank" class="text-blue-600 visited:text-purple-600"></a>
@@ -40,18 +37,10 @@
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
         // Get a reference to the file input element
-        const inputBuktiPembayaran = document.querySelector('#buktiPembayaran');
         const inputBuktiCheckIn = document.querySelector('#buktiCheckIn');
         FilePond.registerPlugin(FilePondPluginImagePreview);
 
         // Create a FilePond instance
-        const pondBuktiPembayaran = FilePond.create(inputBuktiPembayaran, {
-            storeAsFile: true,
-            onaddfile: (err, fileItem) => {
-                console.log(err, fileItem.getMetadata('resize'));
-            },
-        });
-
         const pondBuktiCheckIn = FilePond.create(inputBuktiCheckIn, {
             storeAsFile: true,
             onaddfile: (err, fileItem) => {
