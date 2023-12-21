@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ReportOrder;
+use App\Services\ReportOrderService;
 use App\Services\ReportService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -73,14 +76,38 @@ class ReportController extends Controller
         string $reportId,
     ) {
         $validatedRequest = $this->validateRequest($request);
-        $updateReportDTO = array_merge($validatedRequest->all(), [
-            "reportId" => $reportId,
-            "user" => $validatedRequest->user(),
-        ]);
 
         try {
-            $this->reportService
-                ->updateReport($updateReportDTO);
+            DB::transaction(function () use ($validatedRequest, $reportId) {
+                $updatedReport = $this->reportService
+                    ->updateReport(array_merge(
+                        $validatedRequest->all(),
+                        [
+                            "reportId" => $reportId,
+                            "user" => $validatedRequest->user(),
+                        ]
+                    ));
+
+                switch ($updatedReport->type) {
+                    case 'ORDER':
+                        Log::info("ORDER report");
+                        (new ReportOrderService((new ReportOrder())))
+                            ->add($updatedReport->id, $validatedRequest->notes, $validatedRequest->price);
+                        break;
+
+                    case 'NOO':
+                        Log::info("NOO report");
+                        break;
+
+                    case 'VISIT':
+                        Log::info("visit report");
+                        break;
+
+                    default:
+                        Log::error("invalid req type");
+                        break;
+                }
+            });
         } catch (\Throwable $th) {
             Log::error("failure to update report data", ["error" => $th]);
             return redirect(route('report.detail', $reportId))
