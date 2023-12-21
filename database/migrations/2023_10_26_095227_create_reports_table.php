@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('document');
+            $table->string('client_name');
+            $table->string('client_domicile');
             $table->string('coordinate_url');
             $table->enum('status', ['CHECK_IN', 'CHECK_OUT']);
             $table->enum('type', ['VISIT', 'NOO', 'ORDER']);
