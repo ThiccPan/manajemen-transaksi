@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('report_orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('report_id');
+            $table->uuid('report_id')->unique();
             $table->foreign('report_id')->references('id')->on('reports');
             $table->longText('notes');
             $table->decimal('price', 10, 2);
