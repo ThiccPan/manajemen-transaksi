@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\ReportStatus;
 use Carbon\Carbon;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -44,11 +45,11 @@ class ReportService
         $newReport->type = $request->type;
 
         $inputCoordinate = $request->coordinate;
-        $fileBuktiPembayaran = $request->file("buktiPembayaran");
+        $checkInImage = $request->file("checkInImage");
         // TODO: handle multiple mage
-        $fileExt = $fileBuktiPembayaran[0]->extension();
+        $fileExt = $checkInImage->extension();
 
-        $fileBuktiPembayaran[0]->storeAs('public', "images/{$newReport->id}.{$fileExt}");
+        $checkInImage->storeAs('public', "images/{$newReport->id}.{$fileExt}");
 
         $newReport->coordinate_url = $inputCoordinate;
         $newReport->document = "images/{$newReport->id}.{$fileExt}";
@@ -64,9 +65,15 @@ class ReportService
         $checkOutTime = Carbon::now()->toDateTimeString();
         $data = Report::where('id', '=', $updateReportDTO["reportId"])
             ->first();
+        Log::info($data->status);
+        if ($data->status === ReportStatus::CHECK_OUT->value) {
+            Log::error("report " . $data->id . " is already checked out");
+            throw new Exception("report already updated", 1);
+        }
         $data->check_out_at = $checkOutTime;
         $data->status = ReportStatus::CHECK_OUT->value;
-        $data->save();
+        $data->saveOrFail();
         Log::info("report " . $data->id . " is updated");
+        return $data;
     }
 }
