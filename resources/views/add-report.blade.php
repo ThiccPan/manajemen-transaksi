@@ -15,8 +15,22 @@
 
             <p id="status"></p>
 
-            <label for="buktiCheckIn">Bukti Check In</label>
-            <input type="file" id="buktiCheckIn" name="buktiCheckIn" required="true" />
+            <div class="mb-6">
+                <label for="clientName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                    toko</label>
+                <input type="text" id="clientName" name="clientName"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+
+            <div class="mb-6">
+                <label for="clientDomicile"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Domisili toko</label>
+                <input type="text" id="clientDomicile" name="clientDomicile"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+
+            <label for="checkInImage">Bukti Check In</label>
+            <input type="file" id="checkInImage" name="checkInImage" required="true" />
 
             <p class="mb-4">
                 Lokasi anda saat ini:
@@ -37,11 +51,11 @@
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
         // Get a reference to the file input element
-        const inputBuktiCheckIn = document.querySelector('#buktiCheckIn');
+        const inputcheckInImage = document.querySelector('#checkInImage');
         FilePond.registerPlugin(FilePondPluginImagePreview);
 
         // Create a FilePond instance
-        const pondBuktiCheckIn = FilePond.create(inputBuktiCheckIn, {
+        const pondcheckInImage = FilePond.create(inputcheckInImage, {
             storeAsFile: true,
             onaddfile: (err, fileItem) => {
                 console.log(err, fileItem.getMetadata('resize'));
