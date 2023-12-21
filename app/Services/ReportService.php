@@ -43,6 +43,8 @@ class ReportService
         $newReport->id = $newReport->newUniqueId();
         $newReport->user_id = $userId;
         $newReport->type = $request->type;
+        $newReport->client_name = $request->clientName;
+        $newReport->client_domicile = $request->clientDomicile;
 
         $inputCoordinate = $request->coordinate;
         $checkInImage = $request->file("checkInImage");
