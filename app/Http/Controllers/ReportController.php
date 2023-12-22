@@ -94,8 +94,8 @@ class ReportController extends Controller
                 switch ($updatedReport->type) {
                     case 'ORDER':
                         Log::info("ORDER report");
-                        $this->reportOrderService
-                            ->add($updatedReport->id, $validatedRequest->notes, $validatedRequest->price);
+                        $this->reportService
+                            ->addReportOrderDetail($updatedReport->id, $validatedRequest->notes, $validatedRequest->price);
                         break;
 
                     case 'NOO':

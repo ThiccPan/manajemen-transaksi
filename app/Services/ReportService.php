@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Report;
+use App\Models\ReportOrder;
 use App\Models\ReportStatus;
 use Carbon\Carbon;
 use DateTime;
@@ -77,5 +78,17 @@ class ReportService
         $data->saveOrFail();
         Log::info("report " . $data->id . " is updated");
         return $data;
+    }
+
+    public function addReportOrderDetail($report_id, $notes, $price)
+    {
+        $newReportOrder = new ReportOrder();
+        $newReportOrder->report_id = $report_id;
+        $newReportOrder->notes = $notes;
+        $newReportOrder->price = $price;
+        $isSaveSuccess = $newReportOrder->saveOrFail();
+        if ($isSaveSuccess) {
+            return $newReportOrder;
+        }
     }
 }
