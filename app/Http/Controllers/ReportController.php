@@ -15,9 +15,12 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class ReportController extends Controller
 {
     private ReportService $reportService;
-    public function __construct(ReportService $reportService)
+    private ReportOrderService $reportOrderService;
+    
+    public function __construct(ReportService $reportService, ReportOrderService $reportOrderService)
     {
         $this->reportService = $reportService;
+        $this->reportOrderService = $reportOrderService;
     }
 
     public function addReportPage(Request $request)
@@ -91,7 +94,7 @@ class ReportController extends Controller
                 switch ($updatedReport->type) {
                     case 'ORDER':
                         Log::info("ORDER report");
-                        (new ReportOrderService((new ReportOrder())))
+                        $this->reportOrderService
                             ->add($updatedReport->id, $validatedRequest->notes, $validatedRequest->price);
                         break;
 
