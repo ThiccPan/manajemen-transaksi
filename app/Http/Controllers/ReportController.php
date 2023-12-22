@@ -15,12 +15,10 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class ReportController extends Controller
 {
     private ReportService $reportService;
-    private ReportOrderService $reportOrderService;
     
-    public function __construct(ReportService $reportService, ReportOrderService $reportOrderService)
+    public function __construct(ReportService $reportService)
     {
         $this->reportService = $reportService;
-        $this->reportOrderService = $reportOrderService;
     }
 
     public function addReportPage(Request $request)
