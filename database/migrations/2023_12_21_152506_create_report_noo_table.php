@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('report_noo', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->uuid('report_id')->unique();
             $table->foreign('report_id')->references('id')->on('reports');
             $table->timestamps();
