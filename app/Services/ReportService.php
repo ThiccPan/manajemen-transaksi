@@ -31,7 +31,7 @@ class ReportService
         if ($getReportsDTO->start != null) $query = $query->where('updated_at', '>=', Carbon::parse($getReportsDTO->start)->toDateTimeString());
         if ($getReportsDTO->end != null) $query = $query->where('updated_at', '<=', $getReportsDTO->end);
         if ($getReportsDTO->type != null) $query = $query->where('type', '=', $getReportsDTO->type);
-        $data = $query->limit(5)->get();
+        $data = $query->paginate(5);
 
         return $data;
     }
