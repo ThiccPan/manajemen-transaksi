@@ -102,7 +102,10 @@ class ReportService
             Log::error("report " . $data->id . " is already checked out");
             throw new Exception("report already updated", 1);
         }
-        $data->type = $updateReportDTO["type"];
+        if (array_key_exists("type", $updateReportDTO)) {
+            $data->type = $updateReportDTO["type"];
+        }
+
         $data->check_out_at = $checkOutTime;
         $data->status = ReportStatus::CHECK_OUT->value;
         $data->saveOrFail();
