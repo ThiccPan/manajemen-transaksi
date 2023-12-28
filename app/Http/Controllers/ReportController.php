@@ -15,10 +15,18 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class ReportController extends Controller
 {
     private ReportService $reportService;
-    
+
     public function __construct(ReportService $reportService)
     {
         $this->reportService = $reportService;
+    }
+
+    public function dashboard(Authenticatable $user)
+    {
+        $data = $this->reportService->checkLastReport($user->id);
+        return view('dashboard', [
+            'last_report' => $data,
+        ]);
     }
 
     public function addReportPage(Request $request)
@@ -41,7 +49,7 @@ class ReportController extends Controller
         $reportData = [];
         // TODO: refactor authorization handling
         if ($user->isAdmin()) {
-            $reportData = $this->reportService->getAllReport(5);
+            $reportData = $this->reportService->getAllReport($request);
         } else {
             $reportData = $this->reportService->getAllReportUser($user->id, 5);
         }
@@ -98,6 +106,8 @@ class ReportController extends Controller
 
                     case 'NOO':
                         Log::info("NOO report");
+                        $this->reportService
+                            ->addReportNOODetail($updatedReport->id);
                         break;
 
                     case 'VISIT':

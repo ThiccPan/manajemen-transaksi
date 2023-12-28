@@ -3,30 +3,59 @@
 namespace App\Services;
 
 use App\Models\Report;
+use App\Models\ReportNOO;
 use App\Models\ReportOrder;
 use App\Models\ReportStatus;
 use Carbon\Carbon;
-use DateTime;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ReportService
 {
-    public function getAllReportUser(int $userId, $limit = 5)
+    public function getAllReportUser(int $userId, $limit = 5, $filters = [])
     {
         $query = Report::with('user')->where('user_id', '=', $userId);
-        $data = $query->limit($limit)->get();
+        if ($filters["startsAt"]) $query = $query->where('updated_at', '>=', $filters["startsAt"]);
+        if ($filters["endsAt"]) $query = $query->where('updated_at', '<=', $filters["endsAt"]);
+        if ($filters["type"]) $query = $query->where('type', '=', $filters["type"]);
+        $data = $query->limit($limit)->orderByDesc('updated_at')->get();
 
         return $data;
     }
 
-    public function getAllReport($limit = 5)
+    public function getAllReport($getReportsDTO)
     {
         $query = Report::with('user');
-        $data = $query->limit($limit)->get();
+        if ($getReportsDTO->start != null) $query = $query->where('updated_at', '>=', Carbon::parse($getReportsDTO->start)->toDateTimeString());
+        if ($getReportsDTO->end != null) $query = $query->where('updated_at', '<=', $getReportsDTO->end);
+        if ($getReportsDTO->type != null) $query = $query->where('type', '=', $getReportsDTO->type);
+        $data = $query->limit(5)->get();
 
         return $data;
+    }
+
+    public function getReportsWithFilter($userId, $filters = [
+        "limit" => 5,
+    ])
+    {
+        $query = Report::with('user')->where('user_id', '=', $userId);
+        if ($filters["startsAt"]) $query = $query->where('updated_at', '>=', $filters["startsAt"]);
+        if ($filters["endsAt"]) $query = $query->where('updated_at', '<=', $filters["endsAt"]);
+        if ($filters["type"]) $query = $query->where('type', '=', $filters["type"]);
+        $data = $query->limit($filters["limit"])->get();
+
+        return $data;
+    }
+
+    public function checkLastReport($userId)
+    {
+        $lastReport = Report::with('user')
+            ->where('user_id', '=', $userId)
+            ->orderByDesc('updated_at')
+            ->first();
+        return $lastReport;
     }
 
     public function getReportById(string $reportId)
@@ -73,6 +102,7 @@ class ReportService
             Log::error("report " . $data->id . " is already checked out");
             throw new Exception("report already updated", 1);
         }
+        $data->type = $updateReportDTO["type"];
         $data->check_out_at = $checkOutTime;
         $data->status = ReportStatus::CHECK_OUT->value;
         $data->saveOrFail();
@@ -87,8 +117,20 @@ class ReportService
         $newReportOrder->notes = $notes;
         $newReportOrder->price = $price;
         $isSaveSuccess = $newReportOrder->saveOrFail();
-        if ($isSaveSuccess) {
-            return $newReportOrder;
+        if (!$isSaveSuccess) {
+            throw new Exception("error saving report order to db", 1);
         }
+        return $newReportOrder;
+    }
+
+    public function addReportNOODetail($reportId)
+    {
+        $newReportNOO = new ReportNOO();
+        $newReportNOO->report_id = $reportId;
+        $isSaveSuccess = $newReportNOO->saveOrFail();
+        if (!$isSaveSuccess) {
+            throw new Exception("error saving report order to db", 1);
+        }
+        return $newReportNOO;
     }
 }
