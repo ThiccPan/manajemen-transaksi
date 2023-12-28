@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportOrder;
+use App\Models\ReportStatus;
 use App\Services\ReportOrderService;
 use App\Services\ReportService;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -29,8 +30,12 @@ class ReportController extends Controller
         ]);
     }
 
-    public function addReportPage(Request $request)
+    public function addReportPage(Authenticatable $user)
     {
+        $lastReport = $this->reportService->checkLastReport($user->id);
+        if ($lastReport->status == ReportStatus::CHECK_IN->value) {
+            return redirect(route('report.list'))->withErrors('terdapat laporan yang masih dalam proses check in');
+        }
         return view('add-report');
     }
 

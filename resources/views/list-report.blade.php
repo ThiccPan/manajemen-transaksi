@@ -7,6 +7,13 @@
 
     <div class="mx-8 py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            @if ($errors->any)
+                @foreach ($errors->all() as $error)
+                    <x-alert alert-type="error" message="{{ $error }}" />
+                @endforeach
+            @endif
+
             <div class="flex justify-between">
                 <div class="">
                     <a href="{{ route('report.add') }}" type="button"
