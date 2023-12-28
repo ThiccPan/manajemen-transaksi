@@ -67,4 +67,9 @@ class Report extends Model
     {
         return $this->hasOne(ReportOrder::class);
     }
+
+    public function reportNOO(): HasOne
+    {
+        return $this->hasOne(ReportNOO::class);
+    }
 }
