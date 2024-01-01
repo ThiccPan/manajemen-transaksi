@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReportOrder;
 use App\Models\ReportStatus;
-use App\Services\ReportOrderService;
 use App\Services\ReportService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class ReportController extends Controller
@@ -131,6 +131,40 @@ class ReportController extends Controller
         }
 
         return redirect(route('report.detail', $reportId))->with("success", "report berhasil di-update");
+    }
+
+    public function downloadReport(Request $request)
+    {
+        $user = $request->user();
+        $reportData = [];
+        // TODO: refactor authorization handling
+        if ($user->isAdmin()) {
+            $reportData = $this->reportService->getAllReport($request);
+        } else {
+            $reportData = $this->reportService->getAllReportUser($user->id, 5);
+        }
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+        $reportsLength = count($reportData);
+
+        for ($i = 0; $i < $reportsLength; $i++) {
+            $activeWorksheet->setCellValue([1, $i + 1], $reportData[$i]->id);
+            $activeWorksheet->setCellValue([2, $i + 1], $reportData[$i]->updated_at);
+            $activeWorksheet->setCellValue([3, $i + 1], $reportData[$i]->user->name);
+            $activeWorksheet->setCellValue([4, $i + 1], $reportData[$i]->client_name);
+            $activeWorksheet->setCellValue([5, $i + 1], $reportData[$i]->client_domicile);
+            $activeWorksheet->setCellValue([6, $i + 1], $reportData[$i]->type);
+            $activeWorksheet->setCellValue([7, $i + 1], $reportData[$i]->reportOrder?->price);
+        }
+
+        $writer = new Xls($spreadsheet);
+        $writer->save('storage/report.xls');
+
+        // ddd(file_exists('report.csv'));
+
+        return Storage::download('public/report.xls');
+        return redirect(route('report.list'))->with("exported_file");
     }
 
     function validateRequest(Request $request)
